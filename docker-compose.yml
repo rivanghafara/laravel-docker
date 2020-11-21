@@ -1,0 +1,32 @@
+version: "3"
+
+networks:
+  laravel_net:
+    driver: bridge
+
+volumes:
+  laravel_db:
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: laravel
+    restart: unless-stopped
+    env_file:
+      - .env.docker
+    ports: 
+      - 8080:8080
+    networks: 
+      - laravel_net
+
+  db:
+    image: telkomindonesia/debian:mariadb-10.2
+    restart: unless-stopped
+    env_file:
+      - .env.docker
+    volumes:
+      - laravel_db:/var/lib/mysql/data
+    networks:
+      - laravel_net
