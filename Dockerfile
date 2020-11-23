@@ -10,7 +10,7 @@ RUN composer install --no-scripts --no-autoloader
 
 COPY . .
 
-RUN mv .env.example .env \
+RUN cp .env.example .env \
     && composer dump-autoload --optimize \
     && find . -type d -exec chmod 775 {} \; \
     && find . -type f -exec chmod 664 {} \; \

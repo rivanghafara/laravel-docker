@@ -14,19 +14,26 @@ services:
       dockerfile: ./Dockerfile
     image: laravel
     restart: unless-stopped
+    working_dir: /var/www/html
     env_file:
       - .env.docker
     ports: 
       - 8080:8080
+    volumes:
+      - ./:/var/www/html
     networks: 
       - laravel_net
 
   db:
-    image: telkomindonesia/debian:mariadb-10.2
-    restart: unless-stopped
-    env_file:
-      - .env.docker
-    volumes:
-      - laravel_db:/var/lib/mysql/data
+    image: postgres:10.1-alpine
     networks:
       - laravel_net
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_DATABASE}
+    ports: 
+      - 5432:5432
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped

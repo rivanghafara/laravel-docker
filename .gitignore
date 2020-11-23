@@ -3,6 +3,10 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
+# custom ignore
+postgres-data
+.env.example
+
 # docker env
 .env.docker
 
